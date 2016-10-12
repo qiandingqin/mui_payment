@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style type="text/css">
+    	input.mui-btn-primary {
+    		color: #fff;
+    		border: 1px solid #007aff;
+    		background-color: #007aff;
+    		display: block;
+    		width:30%;
+    		margin:50px auto;
+    	}
+    </style>
+</head>
+<body>
+	<input class="mui-btn mui-btn-primary paymentBtn" type="button" data-type="alipay" value="支付宝支付" />
+	<input class="mui-btn mui-btn-primary paymentBtn" type="button" data-type="wxpay" value="微信支付" />
+<script src="js/wang_payment.min.js" type="text/javascript"></script>	
+<script type="text/javascript">
+	var HOST = 'http://test.weixiudashi.com/mobile/payment/alipay';
+	var datas = {
+		"amount":0.01,
+		"goods_name":'商品名称',
+		"goods_num":'商品数量',
+	};
+	/*
+	 * 使用说明
+	 * 此插件基于mui.js
+	 * 使用此插件必须在manifest.json中配置payment模块
+	 * 未安装微信 使用微信支付时会触发error错误回调事件
+	 * 未安装支付宝 使用支付宝支付时使用wap支付
+	 * 如发现BUG，请反馈
+	 */
+	/*配置参数
+	 * address : String			[必选]请求支付签名接口的地址
+	 * paymentMethod			[可选]如果传入了btn绑定元素的画使用元素身上的data-type方式，默认支付宝
+	 * type : String 			[可选]请求支付签名接口类似 不填默认post
+	 * data : Json				[可选 根据业务需求]请求支付签名传递的参数 自行配置
+	 * dataType : String		[可选]返回数据格式 默认为空 可自行配置json等
+	 * btn : String				[可选]选择器 触发按钮如果配置了此参数可以直接new Payment().Show();直接调用
+	 * error : Function			[可选]请求支付前面接口失败时触发
+	 * */
+		//使用方法1 直接绑定元素即可调用
+	//配置请求支付前面接口
+	/*var config = {
+		"address":HOST,
+		"type":'post',
+		"data":datas,
+		"btn":'.paymentBtn',
+		"success":successCallback,
+		"error":errorCallback
+	};
+		
+	//初始化支付实例
+	var payment = new Payment(config).Show();
+	
+	*/
+	
+	//使用方法2 在触发某事件的时候调用 更灵活 此方法需要配置支付方法不配置默认使用支付宝
+	//paymentMethod : 'alipay' 支付宝
+	//paymentMethod : 'wxpay' 微信
+	var config = {
+		"address":HOST,
+		"type":'post',
+		"paymentMethod":'alipay',
+		"data":datas,
+		"success":successCallback,
+		"error":errorCallback
+	};
+	var payment = new Payment(config);
+	var oInput = document.querySelectorAll('input');
+	mui.each(oInput,function(i,item){
+		item.addEventListener('tap',function(){
+			payment.PaymentShow();
+		});
+	});
+	
+	//支付成功回调
+	function successCallback(result){
+		alert('支付成功，在控制台返回了信息')
+		console.log(result);
+	};
+	
+	//请求接口失败 a,b,c失败原因
+	function errorCallback(result){
+		alert('支付失败，在控制台返回了信息')
+		console.log(result);
+	};
+</script>
+</body>
+</html>
