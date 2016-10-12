@@ -1,3 +1,9 @@
+/*
+ *作者：大男人主义
+ *邮箱：826541524@qq.com
+ *时间：2016-10-12
+ *描述：mui支付插件
+ * */
 function Payment(op){
 	this.op = op;
 	if(this.op.btn)this.oBtn = mui(this.op.btn);
