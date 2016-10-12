@@ -1,3 +1,3 @@
 # mui_payment
 
-mui平台原生支付插件 1.0
+mui骞冲彴鍘熺敓鏀粯鎻掍欢 1.0
